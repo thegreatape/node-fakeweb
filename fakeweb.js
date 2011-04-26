@@ -13,6 +13,9 @@ function match_rule(options){
                 match = options[key] == rule[key];
             }
         });
+        if(match){
+            matched_rule = rule;
+        }
     });
     return matched_rule;
 }
@@ -20,5 +23,5 @@ function match_rule(options){
 // wrap http.request with interceptor function
 var old_request = http.request;
 http.request = function(options, callback){
-
+    return old_request.call(http, options, callback);
 };
