@@ -1,4 +1,5 @@
-var http = require('http');
+var http = require('http'),
+    events = require('events');
 
 http.intercept_rules = [];
 
@@ -23,5 +24,16 @@ function match_rule(options){
 // wrap http.request with interceptor function
 var old_request = http.request;
 http.request = function(options, callback){
-    return old_request.call(http, options, callback);
+    var rule = match_rule(options);
+    if(rule){
+        var res = new events.EventEmitter();
+        return {end: function(){ 
+            callback(res);
+            res.emit('data', rule.body);
+            res.emit('end');
+            } 
+        };
+    } else {
+        return old_request.call(http, options, callback);
+    }
 };
