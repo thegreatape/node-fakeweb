@@ -1,11 +1,11 @@
 var http = require('http'),
     events = require('events');
 
-http.intercept_rules = [];
+var intercept_rules = [];
 
 function match_rule(options){
     var matched_rule;
-    http.intercept_rules.forEach(function(rule){
+    intercept_rules.forEach(function(rule){
         var keys = Object.keys(rule),
             match = false;
         // TODO headers matching and regex support
@@ -20,6 +20,32 @@ function match_rule(options){
     });
     return matched_rule;
 }
+
+http.register_intercept = function(options){
+    intercept_rules.push(options);
+};
+
+http.unregister_intercept = function(options){
+    intercept_rules.forEach(function(rule, i){
+        var equal = true; 
+        Object.keys(rule).forEach(function(k){
+            if(rule[k] != options[k]){
+                equal = false;
+            }
+        });
+        if(equal){
+            intercept_rules.splice(i, 1);
+        }       
+    });
+};
+
+http.clear_intercepts = function(){
+    intercept_rules = [];
+};
+
+http.get_intercepts = function(){
+    return intercept_rules;
+};
 
 // wrap http.request with interceptor function
 var old_request = http.request;
