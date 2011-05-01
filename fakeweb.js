@@ -13,7 +13,11 @@ function match_rule(options){
         // TODO headers matching and regex support
         keys.forEach(function(key){
             if(options[key]){ 
-                match = options[key] == rule[key];
+                if(rule[key] instanceof RegExp){
+                    match = rule[key].test(options[key]);
+                } else {
+                    match = options[key] == rule[key];
+                }
             }
         });
         if(match){
