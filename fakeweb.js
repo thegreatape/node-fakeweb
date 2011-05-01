@@ -1,5 +1,7 @@
 var http = require('http'),
-    events = require('events');
+    events = require('events'),
+    sys = require('sys'),
+    nodeunit = require('nodeunit');
 
 var intercept_rules = [];
 
@@ -63,3 +65,24 @@ http.request = function(options, callback){
         return old_request.call(http, options, callback);
     }
 };
+
+var fakewebTestCase = function(cases){
+    var tearDown = function(cb){
+        http.clear_intercepts();
+        cb();
+    };
+    if(cases.tearDown){
+        var old = cases.tearDown;
+        cases.tearDown = function(done){ 
+            var self = this;
+            tearDown.call(self, function(){
+                old.call(self, done);
+            });
+        }
+    } else {
+        cases.tearDown = tearDown;
+    }
+    return nodeunit.testCase.call(this, cases);
+};
+sys.inherits(fakewebTestCase, nodeunit.testCase);
+module.exports.testCase = fakewebTestCase;

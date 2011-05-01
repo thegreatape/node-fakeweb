@@ -1,17 +1,7 @@
 var nodeunit = require('nodeunit'),
-    fakeweb = require('../fakeweb'),
+    fakeweb = require('../../fakeweb'),
+    utils = require('../utils'),
     http = require('http');
-
-function request(options, cb){
-    var req = http.request( options, function(response){
-            var res = '';
-            response.on('data', function(i){ res+=i;});
-            response.on('end', function(){
-                cb(res);
-            });
-    });
-    req.end();
-}
 
 STOCK_RESPONSE = "Hi, you've reached the target server!";
 module.exports = nodeunit.testCase({
@@ -29,7 +19,7 @@ module.exports = nodeunit.testCase({
     test_basic_uri_interception: function(assert) {
         assert.expect(1);
         http.register_intercept({uri: '/', body: 'intercepted!'});
-        request( { host: 'localhost', port: 3001, uri: '/', method: "GET"},
+        utils.request( { host: 'localhost', port: 3001, uri: '/', method: "GET"},
             function(res){
                 assert.equal(res, "intercepted!");
                 assert.done();
@@ -41,7 +31,7 @@ module.exports = nodeunit.testCase({
         var rule = {uri: '/', body: 'intercepted'};
         http.register_intercept(rule);
         http.unregister_intercept(rule);
-        request( { host: 'localhost', port: 3001, uri: '/', method: "GET"},
+        utils.request( { host: 'localhost', port: 3001, uri: '/', method: "GET"},
             function(res){
                 assert.equal(res, STOCK_RESPONSE);
                 assert.done();
@@ -53,13 +43,13 @@ module.exports = nodeunit.testCase({
         http.register_intercept({uri: '/bar', body: 'bar'});
         http.register_intercept({uri: '/baz', body: 'baz'});
         http.clear_intercepts();
-        request({uri: '/', port: 3001, method: "GET", host: 'localhost'},
+        utils.request({uri: '/', port: 3001, method: "GET", host: 'localhost'},
                 function(res){
                     assert.equal(res, STOCK_RESPONSE);
-                    request({uri: '/bar', port: 3001, method: "GET", host: 'localhost'},
+                    utils.request({uri: '/bar', port: 3001, method: "GET", host: 'localhost'},
                         function(res){
                             assert.equal(res, STOCK_RESPONSE);
-                            request({uri: '/baz', port: 3001, method: "GET", host: 'localhost'},
+                            utils.request({uri: '/baz', port: 3001, method: "GET", host: 'localhost'},
                             function(res){
                                 assert.equal(res, STOCK_RESPONSE);
                                 assert.done();
