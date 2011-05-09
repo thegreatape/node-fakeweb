@@ -18,14 +18,17 @@ Catch requests to test.com with uri "/foo":
     })
 
 You can match request properties with regular expressions:
-http.register_intercept({uri: /page\d+/, body: 'intercepted body'})
+
+    http.register_intercept({uri: /page\d+/, body: 'intercepted body'})
 
 Unregister rules like so:
+
     http.register_intercept({uri: '/page3', body: 'intercepted body'})
     // ...
     http.unregister_intercept({uri: '/page3', body: 'intercepted body'})
 
 Clear the list of registered intercept rules:
+
     http.clear_intercepts()
 
 [1]: https://github.com/chrisk/fakeweb
