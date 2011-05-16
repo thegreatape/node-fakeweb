@@ -40,4 +40,6 @@ Return custom HTTP headers to your fake response:
         body: 'I'm the mocked-out body!'
     })
 
+node-fakeweb also provides a nodeunit test case that resets the uri intercept list in between tests. See ```tests/suits/testcase.js``` for an example.
+
 [1]: https://github.com/chrisk/fakeweb
