@@ -32,6 +32,7 @@ Clear the list of registered intercept rules:
     http.clear_intercepts()
 
 Return custom HTTP headers to your fake response:
+
     http.register_intercept({
         uri: '/foo', 
         host: 'test.com',
