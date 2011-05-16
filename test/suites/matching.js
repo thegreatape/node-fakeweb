@@ -10,10 +10,10 @@ module.exports = fakeweb.testCase({
         http.register_intercept({uri: /\d/, body: 'matched'});
         utils.request( {uri: '/23232322'},
             function(res){
-                assert.equals(res, 'matched');
+                assert.equals(res.body, 'matched');
                 utils.request( {uri: '/wombat-combat'},
                     function(res){
-                        assert.equals(res, utils.STOCK_RESPONSE);
+                        assert.equals(res.body, utils.STOCK_RESPONSE);
                         assert.done();
                     });
             });

@@ -13,10 +13,10 @@ module.exports = fakeweb.testCase({
         http.register_intercept({uri: '/foo', body: 'foo'});
         utils.request({uri: '/foo'},
             function(res){
-                assert.equals(res, "foo");
+                assert.equals(res.body, "foo");
                 utils.request({uri: '/bar'},
                     function(res){
-                        assert.equals(res, utils.STOCK_RESPONSE);
+                        assert.equals(res.body, utils.STOCK_RESPONSE);
                         assert.done();
                     });
             });
@@ -26,10 +26,10 @@ module.exports = fakeweb.testCase({
         http.register_intercept({uri: '/bar', body: 'bar'});
         utils.request({uri: '/foo'},
             function(res){
-                assert.equals(res, utils.STOCK_RESPONSE);
+                assert.equals(res.body, utils.STOCK_RESPONSE);
                 utils.request({uri: '/bar'},
                     function(res){
-                        assert.equals(res, "bar");
+                        assert.equals(res.body, "bar");
                         assert.done();
                     });
             });

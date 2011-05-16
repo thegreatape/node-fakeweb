@@ -31,4 +31,12 @@ Clear the list of registered intercept rules:
 
     http.clear_intercepts()
 
+Return custom HTTP headers to your fake response:
+    http.register_intercept({
+        uri: '/foo', 
+        host: 'test.com',
+        headers: {'Content-Type': 'text/pineapple'},
+        body: 'I'm the mocked-out body!'
+    })
+
 [1]: https://github.com/chrisk/fakeweb

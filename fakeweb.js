@@ -59,9 +59,10 @@ http.request = function(options, callback){
     var rule = match_rule(options);
     if(rule){
         var res = new events.EventEmitter();
+        res.headers = rule.headers || {'Content-Type': 'text/html'};
         return {end: function(){ 
             callback(res);
-            res.emit('data', rule.body);
+            res.emit('data', rule.body || '');
             res.emit('end');
             } 
         };

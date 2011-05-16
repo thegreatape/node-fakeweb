@@ -6,8 +6,8 @@ utils.request = function(options, cb){
     options.port = options.port || 3001;
     options.method = options.method || 'GET';
     var req = http.request( options, function(response){
-        var res = '';
-        response.on('data', function(i){ res+=i;});
+        var res = {body: "", headers: response.headers};
+        response.on('data', function(i){ res.body+=i;});
         response.on('end', function(){
             cb(res);
         });

@@ -11,7 +11,7 @@ module.exports = nodeunit.testCase({
         http.register_intercept({uri: '/', body: 'intercepted!'});
         utils.request( { uri: '/'},
             function(res){
-                assert.equal(res, "intercepted!");
+                assert.equal(res.body, "intercepted!");
                 assert.done();
         });
     },
@@ -23,7 +23,7 @@ module.exports = nodeunit.testCase({
         http.unregister_intercept(rule);
         utils.request( { uri: '/'},
             function(res){
-                assert.equal(res, utils.STOCK_RESPONSE);
+                assert.equal(res.body, utils.STOCK_RESPONSE);
                 assert.done();
         });
     },
@@ -35,13 +35,13 @@ module.exports = nodeunit.testCase({
         http.clear_intercepts();
         utils.request({uri: '/'},
                 function(res){
-                    assert.equal(res, utils.STOCK_RESPONSE);
+                    assert.equal(res.body, utils.STOCK_RESPONSE);
                     utils.request({uri: '/bar'},
                         function(res){
-                            assert.equal(res, utils.STOCK_RESPONSE);
+                            assert.equal(res.body, utils.STOCK_RESPONSE);
                             utils.request({uri: '/baz'},
                             function(res){
-                                assert.equal(res, utils.STOCK_RESPONSE);
+                                assert.equal(res.body, utils.STOCK_RESPONSE);
                                 assert.done();
                             });
                         });
