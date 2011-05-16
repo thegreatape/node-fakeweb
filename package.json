@@ -4,7 +4,7 @@
  "keywords": ["testing", "http interception", "mocking"],
  "main": "fakeweb",
  "repository": { "type" : "git",
-                 "url" : "https://github.com/thegreatape/fakeweb" },
+                 "url" : "https://github.com/thegreatape/node-fakeweb" },
  "dependencies": {"nodeunit": ">=0.5.1"},
  "author": { "name" : "Thomas Mayfield",
              "email" : "Thomas.Mayfield@gmail.com",
