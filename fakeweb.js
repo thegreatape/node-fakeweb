@@ -1,6 +1,6 @@
 var http = require('http'),
     events = require('events'),
-    sys = require('sys'),
+    util = require('util'),
     nodeunit = require('nodeunit');
 
 var intercept_rules = [];
@@ -89,5 +89,5 @@ var fakewebTestCase = function(cases){
     }
     return nodeunit.testCase.call(this, cases);
 };
-sys.inherits(fakewebTestCase, nodeunit.testCase);
+util.inherits(fakewebTestCase, nodeunit.testCase);
 module.exports.testCase = fakewebTestCase;
