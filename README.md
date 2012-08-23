@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/thegreatape/node-fakeweb.png)](http://travis-ci.org/thegreatape/node-fakeweb)
 Simple HTTP request mocking/interception for testing node.js modules that interface with external web services. Inspired by [chrisk's fakeweb][1].
 
 # Examples
